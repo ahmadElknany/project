@@ -17,7 +17,30 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        //'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'provider_id'  => random_int(1, 200).random_int(1, 200), 
+        'avatar' => 'user.png',
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Models\Thread::class, function (Faker $faker) {
+    return [
+        'user_id' => function() {
+        	return factory('App\User')->create()->id;
+        },
+        'title' => $faker->sentence,
+        'body' => $faker->paragraph,
+    ];
+});
+
+$factory->define(App\Models\Reply::class, function (Faker $faker) {
+    return [
+        'user_id' => function() {
+        	return factory('App\User')->create()->id;
+        },
+        'thread_id' => function() {
+        	return factory('App\Models\Thread')->create()->id;
+        },
+        'body' => $faker->paragraph,
     ];
 });

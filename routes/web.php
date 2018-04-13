@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('threads', 'ThreadController');
+Route::post('threads/{thread}/replies', 'ReplyController@store');
+
 Route::get('login-email', 'Auth\Email\SessionController@create');
 Route::post('login-email', 'Auth\Email\SessionController@store')->name('login-email');
 Route::get('logout', 'Auth\Email\SessionController@destroy');
@@ -25,3 +28,7 @@ Route::get('login/{provider}', 'Auth\Social\SocialLoginController@redirectToProv
             ->where(['provider' => 'github|facebook|google|twitter']);
 Route::get('login/{provider}/callback', 'Auth\Social\SocialLoginController@handleProviderCallback')
             ->where(['provider' => 'github|facebook|google|twitter']);
+            
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
